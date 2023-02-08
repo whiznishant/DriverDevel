@@ -1,0 +1,1 @@
+cmd_/home/nis/mymodule/readWriteFromDevice/readWriteFromDevice.ko := ld -r  -m elf_x86_64  --build-id=sha1  -T scripts/module.lds -o /home/nis/mymodule/readWriteFromDevice/readWriteFromDevice.ko /home/nis/mymodule/readWriteFromDevice/readWriteFromDevice.o /home/nis/mymodule/readWriteFromDevice/readWriteFromDevice.mod.o;  true

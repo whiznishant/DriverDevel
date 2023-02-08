@@ -1,0 +1,1 @@
+cmd_/home/nis/mymodule/readWriteFromDevice/readWriteFromDevice.mod := { echo  /home/nis/mymodule/readWriteFromDevice/readWriteFromDevice.o;  echo; } > /home/nis/mymodule/readWriteFromDevice/readWriteFromDevice.mod

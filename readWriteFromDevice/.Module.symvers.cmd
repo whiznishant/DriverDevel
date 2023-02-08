@@ -1,0 +1,1 @@
+cmd_/home/nis/mymodule/readWriteFromDevice/Module.symvers := sed 's/\.ko$$/\.o/' /home/nis/mymodule/readWriteFromDevice/modules.order | scripts/mod/modpost -m -a  -o /home/nis/mymodule/readWriteFromDevice/Module.symvers -e -i Module.symvers   -T -

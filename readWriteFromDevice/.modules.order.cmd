@@ -1,0 +1,1 @@
+cmd_/home/nis/mymodule/readWriteFromDevice/modules.order := {   echo /home/nis/mymodule/readWriteFromDevice/readWriteFromDevice.ko; :; } | awk '!x[$$0]++' - > /home/nis/mymodule/readWriteFromDevice/modules.order

@@ -1,0 +1,62 @@
+#include <linux/module.h>   // Mandatory include for modules.
+#include <linux/init.h> 
+#include <linux/kdev_t.h>   // req for dev_t structure Major 
+#include <linux/fs.h>       // req for alloc_chrdev_region and unregister_chrdev_region 
+#include <linux/device.h>   // req for class_create and device_create
+#include <linux/err.h>
+
+static dev_t dev = 0;
+static char *devName = "bx2Dev";
+static struct class *myClass;
+static struct device *myDevice;
+
+int __init myModInit(void)
+{
+    //Register as character device
+    if(alloc_chrdev_region(&dev,0,1,devName) < 0)
+    {
+        pr_err("Module could not be assigned a major number\n");
+    }
+    pr_info("Assigned Major Number to %s as %d\n",devName,MAJOR(dev));
+
+    //Create a corresponding device file 
+    // 1. Create a structure called class . This will be reflected in /sys/class
+    // 2. Create device file using this structure.
+    myClass = class_create(THIS_MODULE,"learnModules");  // will create /sys/class/learnModules    
+    if(IS_ERR(myClass))
+    {
+        pr_err("Class cannot be created");
+        goto class_err;
+    }
+    myDevice = device_create(myClass,NULL,dev,NULL,devName);
+    if(IS_ERR(myClass))
+    {
+        pr_err("Device Creation failed");
+        goto device_err;
+    }
+
+    pr_info("Module inserted succesfully");
+    return 0;
+
+device_err:
+    class_destroy(myClass);
+class_err:
+    unregister_chrdev_region(dev,1);
+
+return -1;
+}
+
+void __exit myModCleanUp(void)
+{
+    device_destroy(myClass,dev);  // This takes class and dev as argument as opposed to struct device pointer
+    class_destroy(myClass);
+    unregister_chrdev_region(dev,1);
+    pr_info("Module Unloaded Succesfully\n"); 
+}
+
+
+module_init(myModInit);
+module_exit(myModCleanUp);
+
+MODULE_INFO(intree,"yes");
+MODULE_LICENSE("GPL");
